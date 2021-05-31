@@ -8,6 +8,10 @@ const imageSchema = mongoose.Schema(
     image: {
       type: Buffer,
       required: true
+    },
+    type: {
+      type: String,
+      required: true
     }
   },
   { timestamp: true }

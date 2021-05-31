@@ -8,7 +8,11 @@ const ctrlImage = require("./controller/image.controller");
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:4200"
+  })
+);
 
 const { uploadDisk, uploadDatabase } = require("./config/multer.config");
 
@@ -18,11 +22,21 @@ app.get("/", (req, res) => {
 
 app.post("/dirupload", uploadDisk.single("avatar"), ctrlImage.uploadFileToDisk);
 
+//For single file upload
 app.post(
   "/dbupload",
   uploadDatabase.single("avatar"),
   ctrlImage.uploadFileToDatabase
 );
+
+//For multi file upload
+// app.post(
+//   "/dbupload",
+//   uploadDatabase.array("avatar", 2),
+//   ctrlImage.uploadMultiFileToDatabase
+// );
+
+app.get("/dbupload", ctrlImage.readFileFromDatabase);
 
 const PORT = process.env.PORT || 5000;
 
